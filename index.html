@@ -1617,17 +1617,28 @@ src="https://www.facebook.com/tr?id=1239779428029848&ev=PageView&noscript=1"/></
 <script>
   /* ===== Mobile-only top banner (gated from Google bots) ===== */
   (function () {
-    if (window.innerWidth > 768) return;
+    console.log('[BANNER] === DEBUG START ===');
+    console.log('[BANNER] step 1: innerWidth =', window.innerWidth, '(must be <= 768)');
+    if (window.innerWidth > 768) { console.warn('[BANNER] ❌ STOPPED: width > 768'); return; }
+
     const ua = navigator.userAgent || '';
-    // Google Search + Google Ads (AdsBot, AdSense, Shopping, Adwords) + generic crawlers
+    console.log('[BANNER] step 2: userAgent =', ua);
     const botPattern = /Googlebot|Googlebot-Image|Googlebot-Video|Googlebot-News|GoogleOther|Google-Site-Verification|Google-InspectionTool|Google-Read-Aloud|Google-PageRenderer|APIs-Google|FeedFetcher-Google|DuplexWeb-Google|Storebot-Google|AdsBot-Google-Mobile-Apps|AdsBot-Google-Mobile|AdsBot-Google|AdsBot|Mediapartners-Google|Mediapartners|GoogleAdwords|Google-Adwords|AdWords|AdSense|bingbot|adidxbot|YandexBot|Baiduspider|DuckDuckBot|facebookexternalhit|Twitterbot|LinkedInBot|Slackbot|crawler|spider|HeadlessChrome|Chrome-Lighthouse|Lighthouse|PageSpeed/i;
-    if (botPattern.test(ua)) return;
-    if (navigator.webdriver) return;
+    const botMatch = ua.match(botPattern);
+    console.log('[BANNER] step 3: bot match =', botMatch);
+    if (botMatch) { console.warn('[BANNER] ❌ STOPPED: matched bot pattern →', botMatch[0]); return; }
+
+    console.log('[BANNER] step 4: navigator.webdriver =', navigator.webdriver);
+    if (navigator.webdriver) { console.warn('[BANNER] ❌ STOPPED: webdriver = true'); return; }
 
     const tpl = document.getElementById('mobileTopBanner');
-    if (!tpl) return;
+    console.log('[BANNER] step 5: template found =', !!tpl);
+    if (!tpl) { console.warn('[BANNER] ❌ STOPPED: template not found'); return; }
+
     document.body.prepend(tpl.content.cloneNode(true));
     document.body.classList.add('has-m-banner');
+    console.log('[BANNER] ✅ INJECTED SUCCESSFULLY');
+
     const closeBtn = document.querySelector('.m-top-banner-close');
     if (closeBtn) {
       closeBtn.addEventListener('click', (e) => {
