@@ -1032,14 +1032,17 @@
       position: relative;
       width: 100%;
       z-index: 200;
-      background: var(--bg-1);
+      background: #0a0815;
       line-height: 0;
+      overflow: hidden;
+      isolation: isolate;
     }
     .m-top-banner a {
       display: block;
       width: 100%;
       text-align: center;
       line-height: 0;
+      position: relative;
     }
     .m-top-banner img {
       display: block;
@@ -1048,6 +1051,8 @@
       height: auto;
       object-fit: contain;
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
     .m-top-banner-close {
       position: absolute;
@@ -1060,7 +1065,7 @@
       -webkit-backdrop-filter: blur(6px);
       display: flex; align-items: center; justify-content: center;
       font-size: 14px;
-      z-index: 2;
+      z-index: 10;
       cursor: pointer;
       border: 1px solid rgba(250,246,240,0.2);
     }
@@ -1072,14 +1077,18 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      background: var(--bg-1);
+      background: #0a0815;
       line-height: 0;
       padding: 0;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
     }
     .m-sub-banner a {
       display: block;
       width: 100%;
       line-height: 0;
+      position: relative;
     }
     .m-sub-banner img {
       display: block;
@@ -1088,8 +1097,103 @@
       height: auto;
       object-fit: contain;
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
     body.has-m-banner .hero { padding-top: 20px; }
+
+    /* ============ SPACE-THEMED ANIMATIONS — twinkling stars + shimmer sweep ============ */
+    /* Twinkling stars layer 1 — white + gold mix */
+    .m-top-banner::before, .m-sub-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1.2px 1.2px at 8% 12%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 22% 28%, #ffe9a0, transparent),
+        radial-gradient(1px 1px at 35% 18%, #fff, transparent),
+        radial-gradient(2px 2px at 48% 8%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 62% 22%, #ffd700, transparent),
+        radial-gradient(1px 1px at 75% 14%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 88% 25%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 12% 42%, #ffd700, transparent),
+        radial-gradient(1px 1px at 28% 48%, #fff, transparent),
+        radial-gradient(2px 2px at 52% 38%, #ffe9a0, transparent),
+        radial-gradient(1.5px 1.5px at 68% 50%, #fff, transparent),
+        radial-gradient(1px 1px at 82% 42%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 18% 62%, #fff, transparent),
+        radial-gradient(2px 2px at 38% 72%, #ffd700, transparent),
+        radial-gradient(1.2px 1.2px at 55% 65%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 72% 78%, #ffe9a0, transparent),
+        radial-gradient(1px 1px at 90% 65%, #fff, transparent),
+        radial-gradient(2px 2px at 25% 88%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 45% 92%, #ffd700, transparent),
+        radial-gradient(1.2px 1.2px at 65% 85%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 85% 92%, #ffe9a0, transparent);
+      animation: starsTwinkle 2.4s ease-in-out infinite;
+    }
+
+    /* Shimmer light sweep — diagonal gold light moving across */
+    .m-top-banner::after, .m-sub-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      background: linear-gradient(115deg,
+        transparent 30%,
+        rgba(255,233,160,0) 45%,
+        rgba(255,233,160,0.5) 50%,
+        rgba(255,233,160,0) 55%,
+        transparent 70%);
+      transform: translateX(-150%);
+      animation: shimmerSweep 3.5s linear infinite;
+      mix-blend-mode: screen;
+    }
+
+    /* Secondary sparkle layer (bigger, slower, gold) — uses anchor pseudo-element */
+    .m-top-banner a::before, .m-sub-banner a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background-image:
+        radial-gradient(2.5px 2.5px at 15% 25%, #fff, transparent),
+        radial-gradient(3px 3px at 42% 55%, #ffd700, transparent),
+        radial-gradient(2px 2px at 78% 35%, #ffe9a0, transparent),
+        radial-gradient(2.5px 2.5px at 28% 78%, #fff, transparent),
+        radial-gradient(2px 2px at 62% 82%, #ffd700, transparent),
+        radial-gradient(3px 3px at 88% 60%, #ffe9a0, transparent);
+      animation: starsTwinkle 1.8s ease-in-out infinite 0.6s reverse;
+      filter: blur(0.5px) drop-shadow(0 0 4px rgba(255,215,0,0.7));
+    }
+
+    /* Inner gold glow pulse */
+    .m-top-banner a::after, .m-sub-banner a::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      box-shadow: inset 0 0 40px rgba(255,215,0,0.35);
+      animation: glowPulse 2.8s ease-in-out infinite;
+    }
+  }
+
+  @keyframes starsTwinkle {
+    0%, 100% { opacity: 0.4; transform: scale(0.92); }
+    50% { opacity: 1; transform: scale(1.08); }
+  }
+  @keyframes shimmerSweep {
+    0% { transform: translateX(-150%); }
+    100% { transform: translateX(150%); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: inset 0 0 30px rgba(255,215,0,0.25), inset 0 0 0 1px rgba(255,215,0,0.15); }
+    50% { box-shadow: inset 0 0 70px rgba(255,215,0,0.6), inset 0 0 0 1px rgba(255,215,0,0.4); }
   }
 
   /* ============ REVEAL ============ */
