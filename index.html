@@ -40,6 +40,7 @@
     line-height: 1.65;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    position: relative;
   }
   img { max-width: 100%; display: block; }
   a { color: inherit; text-decoration: none; }
@@ -1196,6 +1197,63 @@
     50% { box-shadow: inset 0 0 70px rgba(255,215,0,0.6), inset 0 0 0 1px rgba(255,215,0,0.4); }
   }
 
+  /* ============ SHOOTING STARS — bridge between top + sub banner ============ */
+  .space-overlay { display: none; }
+  @media (max-width: 768px) {
+    .space-overlay {
+      display: block;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 200vh;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 300;
+    }
+    .shooting-star {
+      position: absolute;
+      top: 0; left: 0;
+      width: 6px; height: 6px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow:
+        0 0 14px 3px rgba(255,255,255,0.95),
+        0 0 32px 10px rgba(255,233,160,0.65),
+        0 0 50px 18px rgba(255,215,0,0.35);
+      opacity: 0;
+    }
+    .shooting-star::before {
+      content: '';
+      position: absolute;
+      top: 50%; right: 100%;
+      width: 160px; height: 2.5px;
+      background: linear-gradient(to left,
+        rgba(255,255,255,1),
+        rgba(255,233,160,0.6) 40%,
+        transparent);
+      transform: translateY(-50%);
+      border-radius: 4px;
+      filter: blur(0.5px);
+    }
+    .shooting-star.ss-1 { animation: shootSW 5s linear infinite; }
+    .shooting-star.ss-2 { animation: shootSE 7s linear infinite 2.2s; }
+    .shooting-star.ss-3 { animation: shootSW 6s linear infinite 4s; }
+    .shooting-star.ss-3::before { width: 110px; }
+  }
+
+  /* Shooting star paths — from above banner1, through nav, ending below banner2 */
+  @keyframes shootSW {
+    0%   { transform: translate(105vw, -8vh) rotate(135deg); opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { transform: translate(-25vw, 135vh) rotate(135deg); opacity: 0; }
+  }
+  @keyframes shootSE {
+    0%   { transform: translate(-15vw, -8vh) rotate(45deg); opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { transform: translate(115vw, 135vh) rotate(45deg); opacity: 0; }
+  }
+
   /* ============ REVEAL ============ */
   .reveal {
     opacity: 0;
@@ -1276,6 +1334,13 @@ src="https://www.facebook.com/tr?id=1239779428029848&ev=PageView&noscript=1"/></
     <button type="button" class="m-top-banner-close" aria-label="close"><i class="fa-solid fa-xmark"></i></button>
   </aside>
 </template>
+
+<!-- ============ SHOOTING STARS OVERLAY (mobile-only, bridges both banners) ============ -->
+<div class="space-overlay" aria-hidden="true">
+  <div class="shooting-star ss-1"></div>
+  <div class="shooting-star ss-2"></div>
+  <div class="shooting-star ss-3"></div>
+</div>
 
 <!-- ============ NAV ============ -->
 <nav class="nav" id="nav">
