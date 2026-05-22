@@ -1023,6 +1023,7 @@
 
   /* ============ MOBILE TOP BANNER (mobile-only, low-SEO) ============ */
   .m-top-banner { display: none; }
+  .m-sub-banner { display: none; }
   @media (max-width: 768px) {
     .m-top-banner {
       display: flex;
@@ -1064,6 +1065,26 @@
       border: 1px solid rgba(250,246,240,0.2);
     }
     body.has-m-banner .nav { position: relative; }
+
+    /* Mobile-only sub-banner (between nav and hero) */
+    .m-sub-banner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      background: var(--bg-1);
+      line-height: 0;
+      padding: 0;
+    }
+    .m-sub-banner img {
+      display: block;
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+    body.has-m-banner .hero { padding-top: 20px; }
   }
 
   /* ============ REVEAL ============ */
@@ -1176,6 +1197,11 @@ src="https://www.facebook.com/tr?id=1239779428029848&ev=PageView&noscript=1"/></
   <a href="#categories" class="dlink">หมวดหมู่</a>
   <a href="#about" class="dlink">เรื่องของเรา</a>
   <a href="#contact" class="dlink">ติดต่อ</a>
+</aside>
+
+<!-- ============ MOBILE SUB-BANNER (between nav and hero) ============ -->
+<aside class="m-sub-banner">
+  <img src="banner2.png" alt=""/>
 </aside>
 
 <!-- ============ HERO ============ -->
